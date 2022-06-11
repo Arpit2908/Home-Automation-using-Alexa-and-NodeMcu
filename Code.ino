@@ -27,9 +27,6 @@
    "Alexa, turn on Living Room" or "..., turn off Living Room"
    "Alexa, turn on All Home Devices" or "..., turn off All Home Devices"
 
-   For Device connected on Relay 1, a "dimmer" was also coded. so you can say:
-    "Alexa, turn on Red Light 50 percent" on testing phase and you will get proportional light
-
   *********************************************************************************/
 
 #ifdef ARDUINO_ARCH_ESP32
@@ -157,6 +154,7 @@ void loop()
   temp = dht.readTemperature();
 
   // for displaying temprature
+  lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temp: ");
   lcd.print(temp);
@@ -171,6 +169,23 @@ void loop()
 
   espalexa.loop();
   delay(1);
+
+  // Displaying Status on Lcd
+/*  if (RelayPin1, LOW)
+  {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 1 is ON");
+    delay(1000);
+  }
+  else
+  {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 1 is OFF");
+    delay(1000);
+  }
+  */
 }
 
 //our callback functions
@@ -180,14 +195,22 @@ void device1Changed(uint8_t brightness) {
   if (brightness == 255)
   {
     digitalWrite(RelayPin1, LOW);
-    Serial.println("Device1 ON");
+    Serial.println("Fan 1 : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 1 : ON");
+    delay(2000);
   }
-  else if (brightness == 0)
+  else //if (brightness == 0)
   {
     digitalWrite(RelayPin1, HIGH);
-    Serial.println("Device1 OFF");
+    Serial.println("Fan 1 : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 1 : OFF");
+    delay(2000);
   }
-  else
+/*  else
   {
     int brigh_perc = (brightness / 255.) * 100;
     analogWrite(RelayPin1, brightness);
@@ -196,6 +219,7 @@ void device1Changed(uint8_t brightness) {
     Serial.println("%");
 
   }
+  */
 }
 
 void device2Changed(uint8_t brightness)
@@ -204,12 +228,20 @@ void device2Changed(uint8_t brightness)
   if (brightness == 255)
   {
     digitalWrite(RelayPin2, LOW);
-    Serial.println("Device2 ON");
+    Serial.println("Fan 2 : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 2 : ON");
+    delay(2000);
   }
   else
   {
     digitalWrite(RelayPin2, HIGH);
-    Serial.println("Device2 OFF");
+    Serial.println("Fan 2 : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Fan 2 : OFF");
+    delay(2000);
   }
 }
 
@@ -219,12 +251,20 @@ void device3Changed(uint8_t brightness)
   if (brightness == 255)
   {
     digitalWrite(RelayPin3, LOW);
-    Serial.println("Device3 ON");
+    Serial.println("Light 1 : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Light 1 : ON");
+    delay(2000);
   }
   else
   {
     digitalWrite(RelayPin3, HIGH);
-    Serial.println("Device3 OFF");
+    Serial.println("Light 1 : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Light 1 : OFF");
+    delay(2000);
   }
 }
 
@@ -234,12 +274,20 @@ void device4Changed(uint8_t brightness)
   if (brightness == 255)
   {
     digitalWrite(RelayPin4, LOW);
-    Serial.println("Device4 ON");
+    Serial.println("Light 2 : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Light 2 : ON");
+    delay(2000);
   }
   else
   {
     digitalWrite(RelayPin4, HIGH);
-    Serial.println("Device4 OFF");
+    Serial.println("Light 2 : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Light 2 : OFF");
+    delay(2000);
   }
 }
 
@@ -251,13 +299,21 @@ void devFunc1Changed(uint8_t brightness)
   {
     digitalWrite(RelayPin1, LOW);
     digitalWrite(RelayPin2, LOW);
-    Serial.println("All Fans ON");
+    Serial.println("All Fans : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(" All Fans : ON");
+    delay(2000);
   }
   else
   {
     digitalWrite(RelayPin1, HIGH);
     digitalWrite(RelayPin2, HIGH);
-    Serial.println("All Fans OFF");
+    Serial.println("All : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("All Fans : OFF");
+    delay(2000);
   }
 }
 
@@ -268,13 +324,21 @@ void devFunc2Changed(uint8_t brightness)
   {
     digitalWrite(RelayPin3, LOW);
     digitalWrite(RelayPin4, LOW);
-    Serial.println(" All Lights ON");
+    Serial.println(" All Lights : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("All Lights : ON");
+    delay(2000);
   }
   else
   {
     digitalWrite(RelayPin3, HIGH);
     digitalWrite(RelayPin4, HIGH);
-    Serial.println("All Lights OFF");
+    Serial.println("All Lights : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("All Lights : OFF");
+    delay(2000);
   }
 }
 
@@ -288,6 +352,10 @@ void devFunc3Changed(uint8_t brightness)
     digitalWrite(RelayPin3, LOW);
     digitalWrite(RelayPin4, LOW);
     Serial.println("All Home Devices ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("All Dev. are ON");
+    delay(2000);
   }
   else
   {
@@ -296,6 +364,10 @@ void devFunc3Changed(uint8_t brightness)
     digitalWrite(RelayPin3, HIGH);
     digitalWrite(RelayPin4, HIGH);
     Serial.println("All Home Devices OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("All Dev. are OFF");
+    delay(2000);
   }
 }
 
