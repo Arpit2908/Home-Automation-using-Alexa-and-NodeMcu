@@ -61,17 +61,19 @@ float temp; //Stores temperature value
 #define RelayPin1 14  //D5
 #define RelayPin2 12  //D6
 #define RelayPin3 13  //D7
-#define RelayPin4 3   //RXD0
+#define RelayPin4 03   //RXD0
+#define RelayPin5 01   //TXD0
 
 //direct callback functions
 void device1Changed(uint8_t brightness);
 void device2Changed(uint8_t brightness);
 void device3Changed(uint8_t brightness);
 void device4Changed(uint8_t brightness);
+void device5Changed(uint8_t brightness);
 
 //special callback functions
-/*void devFunc1Changed(uint8_t brightness);
-  void devFunc2Changed(uint8_t brightness);*/
+void devFunc1Changed(uint8_t brightness);
+void devFunc2Changed(uint8_t brightness);
 void devFunc3Changed(uint8_t brightness);
 
 // device names
@@ -79,6 +81,7 @@ String Device_1_Name = "Fan 1";
 String Device_2_Name = "Fan 2";
 String Device_3_Name = "Light 1";
 String Device_4_Name = "Light 2";
+String Device_5_Name = "A C";
 
 // device_function names
 String Dev_Func_1_Name = "ALL Fans";
@@ -91,8 +94,8 @@ Espalexa espalexa;
 boolean connectWifi();
 
 // WiFi Credentials
-const char* ssid = "";
-const char* password = "";
+const char* ssid = "Wifi Name";
+const char* password = "Password";
 
 boolean wifiConnected = false;
 
@@ -116,6 +119,7 @@ void setup()
   pinMode(RelayPin2, OUTPUT);
   pinMode(RelayPin3, OUTPUT);
   pinMode(RelayPin4, OUTPUT);
+  pinMode(RelayPin5, OUTPUT);
 
   // Initialise wifi connection
   wifiConnected = connectWifi();
@@ -127,6 +131,7 @@ void setup()
     espalexa.addDevice(Device_2_Name, device2Changed);
     espalexa.addDevice(Device_3_Name, device3Changed);
     espalexa.addDevice(Device_4_Name, device4Changed);
+    espalexa.addDevice(Device_5_Name, device5Changed);
 
     // Define your devices functions here.
     espalexa.addDevice(Dev_Func_1_Name, devFunc1Changed);
@@ -161,35 +166,20 @@ void loop()
   lcd.print(" C");
 
   // For Displaying Humidity
+  
   lcd.setCursor(0, 1);
   lcd.print("Humidity: ");
   lcd.print(hum);
   lcd.print(" %");
-  delay(500); //Delay 30 sec.
+delay(1000);
 
   espalexa.loop();
   delay(1);
-
-  // Displaying Status on Lcd
-/*  if (RelayPin1, LOW)
-  {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Fan 1 is ON");
-    delay(1000);
-  }
-  else
-  {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Fan 1 is OFF");
-    delay(1000);
-  }
-  */
 }
 
 //our callback functions
-void device1Changed(uint8_t brightness) {
+void device1Changed(uint8_t brightness) 
+{
 
   //Control the device
   if (brightness == 255)
@@ -199,7 +189,7 @@ void device1Changed(uint8_t brightness) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Fan 1 : ON");
-    delay(2000);
+    delay(1500);
   }
   else //if (brightness == 0)
   {
@@ -208,18 +198,8 @@ void device1Changed(uint8_t brightness) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Fan 1 : OFF");
-    delay(2000);
+    delay(1500);
   }
-/*  else
-  {
-    int brigh_perc = (brightness / 255.) * 100;
-    analogWrite(RelayPin1, brightness);
-    Serial.print("Device1 Brightness: ");
-    Serial.print(brigh_perc);
-    Serial.println("%");
-
-  }
-  */
 }
 
 void device2Changed(uint8_t brightness)
@@ -232,7 +212,7 @@ void device2Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Fan 2 : ON");
-    delay(2000);
+    delay(1500);
   }
   else
   {
@@ -241,7 +221,7 @@ void device2Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Fan 2 : OFF");
-    delay(2000);
+    delay(1500);
   }
 }
 
@@ -255,7 +235,7 @@ void device3Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Light 1 : ON");
-    delay(2000);
+    delay(1500);
   }
   else
   {
@@ -264,7 +244,7 @@ void device3Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Light 1 : OFF");
-    delay(2000);
+    delay(1500);
   }
 }
 
@@ -278,7 +258,7 @@ void device4Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Light 2 : ON");
-    delay(2000);
+    delay(1500);
   }
   else
   {
@@ -287,7 +267,30 @@ void device4Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("Light 2 : OFF");
-    delay(2000);
+    delay(1500);
+  }
+}
+
+void device5Changed(uint8_t brightness)
+{
+  //Control the device
+  if (brightness == 255)
+  {
+    digitalWrite(RelayPin5, LOW);
+    Serial.println("A.C. : ON");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("A.C. : ON");
+    delay(1500);
+  }
+  else
+  {
+    digitalWrite(RelayPin5, HIGH);
+    Serial.println("A.C. : OFF");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("A.C. : OFF");
+    delay(1500);
   }
 }
 
@@ -303,7 +306,7 @@ void devFunc1Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(" All Fans : ON");
-    delay(2000);
+    delay(1500);
   }
   else
   {
@@ -313,7 +316,7 @@ void devFunc1Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("All Fans : OFF");
-    delay(2000);
+    delay(1500);
   }
 }
 
@@ -328,7 +331,7 @@ void devFunc2Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("All Lights : ON");
-    delay(2000);
+    delay(1500);
   }
   else
   {
@@ -338,7 +341,7 @@ void devFunc2Changed(uint8_t brightness)
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("All Lights : OFF");
-    delay(2000);
+    delay(1500);
   }
 }
 
@@ -351,11 +354,12 @@ void devFunc3Changed(uint8_t brightness)
     digitalWrite(RelayPin2, LOW);
     digitalWrite(RelayPin3, LOW);
     digitalWrite(RelayPin4, LOW);
-    Serial.println("All Home Devices ON");
+    digitalWrite(RelayPin5, LOW);
+    Serial.println("All Room Devices ON");
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("All Dev. are ON");
-    delay(2000);
+    lcd.print("All Devices : ON");
+    delay(1500);
   }
   else
   {
@@ -363,11 +367,12 @@ void devFunc3Changed(uint8_t brightness)
     digitalWrite(RelayPin2, HIGH);
     digitalWrite(RelayPin3, HIGH);
     digitalWrite(RelayPin4, HIGH);
-    Serial.println("All Home Devices OFF");
+    digitalWrite(RelayPin5, HIGH);
+    Serial.println("All Room Devices OFF");
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("All Dev. are OFF");
-    delay(2000);
+    lcd.print("All Devices : OFF");
+    delay(1500);
   }
 }
 
