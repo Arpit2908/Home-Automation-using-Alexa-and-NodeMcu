@@ -15,6 +15,6 @@
 3. IN 2 Realy pin - D6
 4. IN 3 Realy pin - D7
 5. IN 4 Realy pin - RXD0
-6. Solid State Relay pin - TxD0
+6. Solid State Relay pin - TXD0
 7. SCL Pin of I2C - D1
-8. SDA Pin of I2c - d2
+8. SDA Pin of I2C - D2
