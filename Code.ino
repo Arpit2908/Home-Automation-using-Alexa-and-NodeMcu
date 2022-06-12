@@ -91,8 +91,8 @@ Espalexa espalexa;
 boolean connectWifi();
 
 // WiFi Credentials
-const char* ssid = "Arpit _Soni";
-const char* password = "Panwari@1";
+const char* ssid = "";
+const char* password = "";
 
 boolean wifiConnected = false;
 
